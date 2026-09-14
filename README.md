@@ -29,6 +29,7 @@ In both cases, a log of the transaction (timestamp, file name, AI score) is writ
 
 ## AWS configurations:
 > Initially creating a free tier account on AWS and note that only one account can be created per email and that email is permanently blocked by AWS even after account termination.
+
 ==Creating an IAM user==
 1. Go to AWS console for root/admin
 2. select users>create user
