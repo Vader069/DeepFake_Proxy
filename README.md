@@ -34,5 +34,5 @@ In both cases, a log of the transaction (timestamp, file name, AI score) is writ
 2. select users>create user
 3. Enter the username and a default autogen password or a custom password for the user
 4. Then setup the permissions that are to be granted to that user in "Attach policies directly" and select "AdministratorAccess" if the user wants almost root like privillages.
-5. Then select create user button which creates the new user with its custom account id and password and download it as CSV file to send it securely to the user.\
+5. Then select create user button which creates the new user with its custom account id and password and download it as CSV file to send it securely to the user.
 
