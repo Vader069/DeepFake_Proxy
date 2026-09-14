@@ -26,3 +26,13 @@ If it's a Deepfake: The file is immediately moved to an S3 "Quarantine Bucket" a
 If it's Real: The file is moved to an S3 "Production Bucket" where the main application can safely use it.
 
 In both cases, a log of the transaction (timestamp, file name, AI score) is written to an Amazon DynamoDB table for auditing.
+
+## AWS configurations:
+> Initially creating a free tier account on AWS and note that only one account can be created per email and that email is permanently blocked by AWS even after account termination.
+==Creating an IAM user==
+1. Go to AWS console for root/admin
+2. select users>create user
+3. Enter the username and a default autogen password or a custom password for the user
+4. Then setup the permissions that are to be granted to that user in "Attach policies directly" and select "AdministratorAccess" if the user wants almost root like privillages.
+5. Then select create user button which creates the new user with its custom account id and password and download it as CSV file to send it securely to the user.\
+
