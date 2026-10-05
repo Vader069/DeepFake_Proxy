@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepfake Proxy</title>
+    <link rel="stylesheet" href="Beautify.css">
+</head>
+<body>
+    <div class="container">
+        <h1>DEEPFAKE PROXY</h1>
+
+        <!--UPLOAD PAGE -->
+        <div id="upload-view" class="view-section active">
+            <div class="upload-box">
+                <input type="file" id="file-input" accept="image/*" hidden>
+                <label for="file-input" class="btn btn-outline" id="file-label">UPLOAD FILE</label>
+            </div>
+            <button id="check-btn" class="btn btn-solid" disabled>CHECK</button>
+        </div>
+
+        <!--PROCESSING PAGE -->
+        <div id="processing-view" class="view-section hidden">
+            <div class="processing-header">
+                <div class="file-display" id="processing-filename">FILE.JPG</div>
+                <div class="spinner"></div>
+            </div>
+            <button class="btn btn-solid disabled" disabled>CHECKING...</button>
+            
+            <div class="log-container">
+                <h3>LOG ENTRY</h3>
+                <ul id="log-list">
+                    <!-- Logs will be injected here by JS -->
+                </ul>
+            </div>
+        </div>
+
+        <!--REPORT PAGE -->
+        <div id="report-view" class="view-section hidden">
+            <h3 class="report-subtitle">REPORT FOR IMAGE <span id="report-filename">FILE.JPG</span></h3>
+            
+            <div class="image-report-container">
+                <img id="result-image" src="" alt="Target Image">
+                
+                <!-- Mock Reason Overlays -->
+                <div class="reason-tag" style="top: 20%; left: -20px;">← FAKE REASON 2</div>
+                <div class="reason-tag" style="top: 15%; right: -20px;">FAKE REASON 1 →</div>
+                <div class="reason-tag" style="bottom: 15%; right: -20px;">FAKE REASON N →</div>
+            </div>
+
+            <div class="report-footer">
+                <h2 id="classification-result" class="classification fake">CLASSIFICATION - FAKE</h2>
+                <div class="action-buttons">
+                    <button id="upload-another-btn" class="btn btn-outline">UPLOAD ANOTHER</button>
+                    <button id="exit-btn" class="btn btn-danger">EXIT</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
