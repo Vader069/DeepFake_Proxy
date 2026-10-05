@@ -19,7 +19,7 @@ const exitBtn = document.getElementById('exit-btn');
 
 let selectedFile = null;
 
-// --- STEP 1: FILE SELECTION ---
+// File Input
 fileInput.addEventListener('change', (e) => {
     if (e.target.files.length > 0) {
         selectedFile = e.target.files[0];
@@ -28,33 +28,28 @@ fileInput.addEventListener('change', (e) => {
     }
 });
 
-// --- STEP 2: ACTUAL EC2 UPLINK ---
+// EC2 Comms
 checkBtn.addEventListener('click', async () => {
     if (!selectedFile) return;
 
     // Switch Views
     uploadView.classList.remove('active');
     processingView.classList.add('active');
-
-    // Setup Processing View
     processingFilename.innerText = selectedFile.name;
     logList.innerHTML = '';
-    
-    // Convert image to display it later
     const objectURL = URL.createObjectURL(selectedFile);
     resultImage.src = objectURL;
 
-    // Print initial real logs to the UI
-    addLog("> Initializing encrypted uplink to 16.112.70.238:8000...");
+    addLog("> Initializing encrypted uplink to deepfakeproxy.duckdns.org...");
     addLog("> Transmitting image payload to EC2 container...");
 
-    // Prepare the payload for FastAPI
+    // payload file to EC2 server
     const formData = new FormData();
     formData.append("file", selectedFile);
 
     try {
-        // Fire the payload at your EC2 Public IP
-        const response = await fetch("http://16.112.70.238:8000/analyze", {
+        
+        const response = await fetch("https://deepfakeproxy.duckdns.org/analyze", {
             method: "POST",
             body: formData
         });
@@ -65,12 +60,12 @@ checkBtn.addEventListener('click', async () => {
 
         addLog("> EC2 response received. Decrypting matrix output...");
 
-        // Parse the exact JSON verdict from the Python backend
+        
         const data = await response.json();
         
         addLog("> Analysis complete. Rendering operational report.");
         
-        // Brief 800ms delay so you can read the final log before the screen flips
+        
         setTimeout(() => {
             showReport(data);
         }, 800);
@@ -82,40 +77,38 @@ checkBtn.addEventListener('click', async () => {
         
         alert("Failed to reach the EC2 server. Ensure the instance is running, Docker is active, and Port 8000 is open in your Security Group.");
         
-        // Kick back to the start screen after a failure
         setTimeout(resetUI, 3000); 
     }
 });
 
-// Helper function to append terminal lines dynamically
+// Helper function
 function addLog(message) {
     const li = document.createElement('li');
     li.innerText = message;
     logList.appendChild(li);
 }
 
-// --- STEP 3: SHOW REAL REPORT ---
+// Report generator
 function showReport(data) {
     processingView.classList.remove('active');
     reportView.classList.add('active');
     reportFilename.innerText = selectedFile.name;
     
-    // Convert the raw 0.0 to 1.0 probability into a clean percentage
+    
     const confidencePercent = (data.confidence * 100).toFixed(2);
 
-    // Update the UI dynamically based on the FastAPI response
     if (data.is_fake) {
         classificationResult.innerText = `CLASSIFICATION - FAKE (${confidencePercent}%)`;
         classificationResult.className = "classification fake"; 
     } else {
-        // If it's authentic, we display the inverse confidence (e.g., 90% sure it's real)
+        
         const authenticPercent = (100 - confidencePercent).toFixed(2);
         classificationResult.innerText = `CLASSIFICATION - AUTHENTIC (${authenticPercent}%)`;
         classificationResult.className = "classification authentic"; 
     }
 }
 
-// --- STEP 4: RESET ---
+// RESET Button
 uploadAnotherBtn.addEventListener('click', resetUI);
 exitBtn.addEventListener('click', resetUI);
 

@@ -1,0 +1,27 @@
+[project]
+name = "aws"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Vader069", email = "ritwik190206@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "boto3>=1.43.108",
+    "datasets>=5.0.1",
+    "fastapi>=0.142.2",
+    "onnx",
+    "onnxruntime>=1.29.0",
+    "pillow",
+    "timm",
+    "torch",
+    "torchvision",
+]
+
+[project.scripts]
+aws = "aws:main"
+
+[build-system]
+requires = ["uv_build>=0.12.1,<0.13.0"]
+build-backend = "uv_build"

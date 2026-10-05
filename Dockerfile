@@ -1,15 +1,18 @@
-# 1. Pull the official AWS Lambda Python 3.12 base image
-FROM public.ecr.aws/lambda/python:3.12
+# Use a lightweight Python image
+FROM python:3.9-slim
 
-# 2. Copy your requirements file into the container
-COPY requirements.txt ${LAMBDA_TASK_ROOT}
+# Set the working directory in the container
+WORKDIR /app
 
-# 3. Install the dependencies inside the container
-RUN pip install -r requirements.txt
+# Copy the requirements file and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# 4. Copy your brain and your execution script into the container
-COPY model.onnx ${LAMBDA_TASK_ROOT}
-COPY lambda_function.py ${LAMBDA_TASK_ROOT}
+# Copy the rest of the application files (main.py, model.onnx, etc.)
+COPY . .
 
-# 5. Tell AWS exactly which script and function to trigger when an image arrives
-CMD [ "lambda_function.lambda_handler" ]
+# Expose Port 8000 for the Uvicorn server
+EXPOSE 8000
+
+# Start the FastAPI server
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
